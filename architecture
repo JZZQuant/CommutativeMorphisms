@@ -1,4 +1,4 @@
-Categories
+Topos
 	LambdaTopos - define the inner products and other concrete implementation of sheafs
 	StandardTopology
 	AlgebraicTopology
@@ -10,7 +10,9 @@ GrothendiekUniverse
 	isheaf -- here goes the abstraction of dual space
 	
 Morphisms
-	LambdaMorphisms
+	LambdaMorphisms -define inner products
+	sigmaalgebra
+	arithmetic
 	
 utils
 
