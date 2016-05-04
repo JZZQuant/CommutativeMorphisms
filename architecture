@@ -1,0 +1,17 @@
+Categories
+	LambdaTopos - define the inner products and other concrete implementation of sheafs
+	StandardTopology
+	AlgebraicTopology
+
+GrothendiekUniverse
+	moinoid -definition of an atom
+	abstrct-topos - complete algorithm, of evaluate and stack collapse using the remaining three 
+	Imorphisms - here goes the abstraction of inner and outer product
+	isheaf -- here goes the abstraction of dual space
+	
+Morphisms
+	LambdaMorphisms
+	
+utils
+
+tests
