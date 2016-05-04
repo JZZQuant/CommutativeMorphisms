@@ -1,8 +1,11 @@
 import helper
 import atom as at
+import numpy as np
+
 class LambdaCategoryBuilder(object):
     def __init__(self,expression):
         self.dualspace=helper.duality(expression)
+        self.expression=expression
 
     def stackCollapse(self,stack,symbol,fun,isLastinEngine):
         orstack=[]
@@ -20,20 +23,24 @@ class LambdaCategoryBuilder(object):
         orstack=self.stackCollapse(fullstack,'&',helper.And,False)
         return self.stackCollapse(orstack,'|',helper.Or,True)[-1]
 
-    def evaluate(self,expression):
+    def evaluate(self):
+        value=self.__evaluate__(self.expression)
+        return np.all(value.element==1)
+
+    def __evaluate__(self,expression):
         fullstack=[]
-        if len(expression)<3:fullstack.append(at.atom(self.dualspace[expression[0]],-1,len(expression)-1))
+        if len(expression)<3:fullstack.append(at.atom(self.dualspace[expression[len(expression)-1]],-1,len(expression)-1))
         else:
             left=expression.find("(")
             if left not in [0,1]:
                 negate=int(expression[0]=='!')
                 fullstack.append(at.atom(self.dualspace[expression[0+negate]],expression[1+negate],negate))
-                fullstack.append(self.evaluate(expression[2+negate:]))
+                fullstack.append(self.__evaluate__(expression[2+negate:]))
             else:
                 pos=helper.closure(expression,left)
-                if len(expression)==pos:fullstack.append(at.atom(self.evaluate(expression[1+left:pos-1]).element,-1,left))
+                if len(expression)==pos:fullstack.append(at.atom(self.__evaluate__(expression[1+left:pos-1]).element,-1,left))
                 else:
-                    fullstack.append(at.atom(self.evaluate(expression[1+left:pos-1]).element,expression[pos],left))
-                    fullstack.append(self.evaluate(expression[pos+1:]))
+                    fullstack.append(at.atom(self.__evaluate__(expression[1+left:pos-1]).element,expression[pos],left))
+                    fullstack.append(self.__evaluate__(expression[pos+1:]))
 
         return self.reduceExp(fullstack)
